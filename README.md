@@ -1,6 +1,6 @@
 # Aplicação - Pokédex
 
-###### Feito por @JuliaPCaputo @milelaraia @JuliaVicentin @DonattoPieve @Karolina-Oliveira
+###### Feito por @JuliaPCaputo @milelaraia @JuliaVicentini @DonattoPieve @Karolina-Oliveira
 
 Este é um breve resumo de um projeto que envolve a aplicação de frameworks de front-end na página de gerenciamento de cartas de uma Pokédex. O projeto foi desenvolvido para a disciplina de Arquitetura de Software.
 
