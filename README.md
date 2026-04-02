@@ -39,3 +39,13 @@ Além disso, a implementação de filtros permitirá ao jogador escolher caracte
 
 [![Whats-App-Image-2026-03-17-at-08-37-20-(1).jpg](https://i.postimg.cc/FRd8yFXM/Whats-App-Image-2026-03-17-at-08-37-20-(1).jpg)](https://postimg.cc/YG7dkH9R)
 
+## Diagramas
+
+### Casos de Uso
+
+[![CASO-DE-USO-Caso-de-uso-drawio.png](https://i.postimg.cc/MpzDbfhH/CASO-DE-USO-Caso-de-uso-drawio.png)](https://postimg.cc/VdHnzvsP)
+
+### Classes
+
+[![CASO-DE-USO-Diagrama-Classes-drawio.png](https://i.postimg.cc/Nfk8MfL3/CASO-DE-USO-Diagrama-Classes-drawio.png)](https://postimg.cc/7fbJt439)
+
