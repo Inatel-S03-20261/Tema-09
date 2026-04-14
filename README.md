@@ -43,9 +43,8 @@ Além disso, a implementação de filtros permitirá ao jogador escolher caracte
 
 ### Casos de Uso
 
-[![CASO-DE-USO-Caso-de-uso-drawio.png](https://i.postimg.cc/MpzDbfhH/CASO-DE-USO-Caso-de-uso-drawio.png)](https://postimg.cc/VdHnzvsP)
+[![CASO-DE-USO-Caso-de-uso-drawio-(1).png](https://i.postimg.cc/FzCdw2KR/CASO-DE-USO-Caso-de-uso-drawio-(1).png)](https://postimg.cc/H85kyvXD)
 
 ### Classes
 
-[![CASO-DE-USO-Diagrama-Classes-drawio.png](https://i.postimg.cc/Nfk8MfL3/CASO-DE-USO-Diagrama-Classes-drawio.png)](https://postimg.cc/7fbJt439)
-
+[![CASO-DE-USO-Diagrama-Classes-drawio-(1).png](https://i.postimg.cc/mr3cTcDg/CASO-DE-USO-Diagrama-Classes-drawio-(1).png)](https://postimg.cc/hJj4rtTk)
