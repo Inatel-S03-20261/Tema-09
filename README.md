@@ -43,26 +43,14 @@ Além disso, a implementação de filtros permitirá ao jogador escolher caracte
 
 ### Casos de Uso
 
-[![CASO-DE-USO-Casos-de-uso-Principios-SOLID-drawio.png](https://i.postimg.cc/J7dSX4XL/CASO-DE-USO-Casos-de-uso-Principios-SOLID-drawio.png)](https://postimg.cc/fkmHns52)
+[![casos-de-uso.jpg](https://i.postimg.cc/bYCsWMG0/casos-de-uso.jpg)](https://postimg.cc/Sj9Szgfj)
 
 ### Classes
 
-[![CASO-DE-USO-Diagrama-de-classes-Principios-SOLID-drawio.png](https://i.postimg.cc/ZKB2xtP8/CASO-DE-USO-Diagrama-de-classes-Principios-SOLID-drawio.png)](https://postimg.cc/BX3mJzVb)
+[![classes.jpg](https://i.postimg.cc/0NPkbdMw/classes.jpg)](https://postimg.cc/K1pSWT5G)
 
 ## Aplicações de SOLID no projeto
 
-As mudanças para incluir os princípios SOLID foram focadas principalmente na separação de responsabilidades, redução de acoplamento e melhoria na comunicação entre camadas.
-
-O princípio da responsabilidade única (SRP) foi aplicado ao dividir a antiga `PokedexService`, que concentrava múltiplas funções, em serviços mais específicos. As responsabilidades relacionadas a cartas e histórico foram extraídas para `CartasService` e `HistoricoService`, permitindo que cada classe tenha um propósito bem definido e reduzindo o impacto de alterações futuras.
-
-O princípio aberto/fechado (OCP) foi atendido por meio da introdução de interfaces para os repositórios e clientes externos, como `IPokedexRepository`, `IPokemonRepository` e `IPokeApiClient`. Com isso, novas implementações podem ser adicionadas sem a necessidade de modificar o código existente, facilitando a evolução do sistema.
-
-O princípio da substituição de Liskov (LSP) é garantido ao assegurar que todas as implementações respeitam os contratos definidos pelas interfaces. Assim, qualquer implementação concreta pode ser utilizada no lugar da abstração sem alterar o comportamento esperado do sistema.
-
-O princípio da segregação de interfaces (ISP) foi aplicado ao criar interfaces específicas para cada contexto, evitando que classes dependam de métodos que não utilizam. Isso resultou em contratos mais enxutos e coesos, como a separação entre repositórios e clientes de API.
-
-Por fim, o princípio da inversão de dependência (DIP) foi implementado ao fazer com que os serviços dependam de abstrações, e não de implementações concretas. Dessa forma, `PokedexService`, `PokemonService` e outros serviços interagem apenas com interfaces, o que reduz o acoplamento e facilita testes e substituições de componentes.
-
-A arquitetura resultante segue o fluxo Service → Interface → Implementação, com uma separação clara entre as camadas de controle, repositório e integração externa. Além disso, a camada de domínio permanece isolada de detalhes de infraestrutura, sendo acessada apenas por meio da camada de controle.
-
-Como resultado, o sistema se torna mais modular, testável e preparado para mudanças futuras, atendendo às boas práticas de engenharia de software.
+A fim de seguir os princípios SOLID, o diagrama de classes foi alterado.
+Para obedecer ao Princípio da Responsabilidade Única, foram retirados métodos relacionados a cartas e histórico da classe PokedexService, sendo estes reorganizados em classes relacionadas a suas respectivas funcionalidades - CartasService e HistoricoService, respectivamente. Além disso, houve a reorganização para que as dependências entre classes (mais especificamente entre as localizadas no package Domain e Control) fossem explicitadas e correspondessem fielmente à intenção de desenvolvimento.
+Por fim, no intuito de obedecer ao Princípio Aberto/Fechado, foram inseridas Interfaces no package Repository, que serão implementadas pelas classes que se conectam com os serviços. Isso se deve ao fato de que, utilizando interfaces, caso haja alguma alteração nos bancos de dados, novas implementações podem ser realizadas diretamente na interface, sem a necessidade de alteração do sistema, facilitando sua evolução.
