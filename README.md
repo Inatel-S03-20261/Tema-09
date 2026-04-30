@@ -51,7 +51,8 @@ Além disso, a implementação de filtros permitirá ao jogador escolher caracte
 
 ## Aplicações de SOLID no projeto
 
-A fim de seguir os princípios SOLID, o diagrama de classes foi alterado.
+  A fim de seguir os princípios SOLID, o diagrama de classes foi alterado.
 Para obedecer ao Princípio da Responsabilidade Única, foram retirados métodos relacionados a cartas e histórico da classe PokedexService, sendo estes reorganizados em classes relacionadas a suas respectivas funcionalidades - CartasService e HistoricoService, respectivamente. Além disso, houve a reorganização para que as dependências entre classes (mais especificamente entre as localizadas no package Domain e Control) fossem explicitadas e correspondessem fielmente à intenção de desenvolvimento.
-Por fim, visando atender ao Princípio da Inversão de Dependência (DIP), foram introduzidas interfaces no package Repository, que definem os contratos de acesso aos dados. As classes concretas de repositório passam a implementar essas interfaces, enquanto as classes de serviço dependem apenas dessas abstrações, e não das implementações específicas.
+
+  Por fim, visando atender ao Princípio da Inversão de Dependência (DIP), foram introduzidas interfaces no package Repository, que definem os contratos de acesso aos dados. As classes concretas de repositório passam a implementar essas interfaces, enquanto as classes de serviço dependem apenas dessas abstrações, e não das implementações específicas.
 Dessa forma, o sistema se torna menos acoplado, permitindo que mudanças na forma de persistência — como troca de banco de dados ou de tecnologia de acesso — sejam realizadas por meio da criação de novas implementações das interfaces, sem a necessidade de modificar as classes de serviço. Isso facilita a manutenção, evolução e testabilidade do sistema.
