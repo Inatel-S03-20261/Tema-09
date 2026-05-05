@@ -47,12 +47,16 @@ Além disso, a implementação de filtros permitirá ao jogador escolher caracte
 
 ### Classes
 
-[![Diagrama-de-classes.png](https://i.postimg.cc/65jwZ5gL/Diagrama-de-classes.png)](https://postimg.cc/7f2p8Dxf)
+[![Diagrama-de-classes.png](https://i.postimg.cc/GtKHwgmr/Diagrama-de-classes.png)](https://postimg.cc/y3JV0PRr)
 
 ## Aplicações de SOLID no projeto
 
-  A fim de seguir os princípios SOLID, o diagrama de classes foi alterado.
-Para obedecer ao Princípio da Responsabilidade Única, foram retirados métodos relacionados a cartas e histórico da classe PokedexService, sendo estes reorganizados em classes relacionadas a suas respectivas funcionalidades - CartasService e HistoricoService, respectivamente. Além disso, houve a reorganização para que as dependências entre classes (mais especificamente entre as localizadas no package Domain e Control) fossem explicitadas e correspondessem fielmente à intenção de desenvolvimento.
+A fim de seguir os princípios SOLID, o diagrama de classes foi alterado.
 
-  Por fim, visando atender ao Princípio da Inversão de Dependência (DIP), foram introduzidas interfaces no package Repository, que definem os contratos de acesso aos dados. As classes concretas de repositório passam a implementar essas interfaces, enquanto as classes de serviço dependem apenas dessas abstrações, e não das implementações específicas.
-Dessa forma, o sistema se torna menos acoplado, permitindo que mudanças na forma de persistência — como troca de banco de dados ou de tecnologia de acesso — sejam realizadas por meio da criação de novas implementações das interfaces, sem a necessidade de modificar as classes de serviço. Isso facilita a manutenção, evolução e testabilidade do sistema.
+Para obedecer ao Princípio da Responsabilidade Única (SRP), foram retirados métodos relacionados a cartas e histórico da classe PokedexService, sendo estes reorganizados em classes específicas para suas respectivas responsabilidades — CartasService e HistoricoService. Além disso, o próprio CartasService teve seus métodos reorganizados: os métodos relacionados ao rastreamento de estado das cartas, como marcarComoRecebida(), marcarComoTrocada() e manterHistorico(), foram movidos para o HistoricoService, que passa a ser responsável exclusivamente pelo histórico de ações do jogador, enquanto o CartasService mantém apenas as regras de negócio relacionadas à consulta, registro e filtragem de cartas. As dependências entre as classes foram reorganizadas para refletir de forma mais clara a separação entre as camadas de domínio, serviço e acesso a dados.
+
+Por fim, visando atender ao Princípio da Inversão de Dependência (DIP), foram introduzidas interfaces no package Repository, que definem os contratos de acesso aos dados. As classes concretas de repositório passam a implementar essas interfaces, enquanto as classes de serviço dependem apenas dessas abstrações, e não das implementações específicas.
+
+O mesmo princípio foi aplicado na comunicação com componentes responsáveis pela interação com sistemas externos, modelados no diagrama como controllers. Foram definidas interfaces para esses elementos, que são implementadas pelas classes concretas responsáveis pelo acesso às APIs externas. As classes de serviço passam a depender dessas abstrações, promovendo menor acoplamento e maior flexibilidade na substituição ou evolução dessas integrações.
+
+Dessa forma, o sistema se torna menos acoplado, permitindo que mudanças na forma de persistência ou na integração com serviços externos sejam realizadas por meio da criação de novas implementações dessas interfaces, sem a necessidade de modificar as classes de serviço. Isso facilita a manutenção, evolução e testabilidade do sistema.
