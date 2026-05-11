@@ -12,7 +12,7 @@ Responsável por gerenciar as cartas conhecidas por cada jogador. A aplicação 
 
 ## Ferramentas a serem utilizadas
 * React
-* JavaScript
+* TypeScript
 
 ## Implementações
 
