@@ -47,7 +47,7 @@ Além disso, a implementação de filtros permitirá ao jogador escolher caracte
 
 ### Classes
 
-[![Diagrama-de-classes.png](https://i.postimg.cc/GtKHwgmr/Diagrama-de-classes.png)](https://postimg.cc/y3JV0PRr)
+[![CASO-DE-USO-Copia-do-Diagrama-de-classes-Arquitetura-drawio.png](https://i.postimg.cc/m2BGQz0N/CASO-DE-USO-Copia-do-Diagrama-de-classes-Arquitetura-drawio.png)](https://postimg.cc/0rW3vQ5b)
 
 ## Aplicações de SOLID no projeto
 
@@ -60,3 +60,82 @@ Por fim, visando atender ao Princípio da Inversão de Dependência (DIP), foram
 O mesmo princípio foi aplicado na comunicação com componentes responsáveis pela interação com sistemas externos, modelados no diagrama como controllers. Foram definidas interfaces para esses elementos, que são implementadas pelas classes concretas responsáveis pelo acesso às APIs externas. As classes de serviço passam a depender dessas abstrações, promovendo menor acoplamento e maior flexibilidade na substituição ou evolução dessas integrações.
 
 Dessa forma, o sistema se torna menos acoplado, permitindo que mudanças na forma de persistência ou na integração com serviços externos sejam realizadas por meio da criação de novas implementações dessas interfaces, sem a necessidade de modificar as classes de serviço. Isso facilita a manutenção, evolução e testabilidade do sistema.
+
+## Estrura de Pastas
+
+```text
+pokedex/
+│
+├── frontend/
+│   └── src/
+│       │
+│       ├── pages/
+│       │   ├── PokedexPage.tsx
+│       │   ├── PokemonPage.tsx
+│       │   └── LoginPage.tsx
+│       │
+│       ├── components/
+│       │   ├── BuscaComponent.tsx
+│       │   └── FiltrosComponent.tsx
+│       │
+│       ├── hooks/
+│       │   ├── usePokemon.ts
+│       │   ├── usePokedex.ts
+│       │   └── useAuth.ts
+│       │
+│       ├── dto/
+│       │   ├── PokemonDTO.ts
+│       │   ├── CartaConhecidaDTO.ts
+│       │   └── PokedexDTO.ts
+│       │
+│       └── App.tsx
+│
+├── backend/
+│   └── src/
+│       └── main/
+│           └── java/
+│               └── com/
+│                   └── pokedex/
+│                       │
+│                       ├── controller/
+│                       │   ├── PokedexController.java
+│                       │   └── AutenticacaoController.java
+│                       │
+│                       ├── service/
+│                       │   ├── PokemonService.java
+│                       │   ├── CartaService.java
+│                       │   ├── HistoricoService.java
+│                       │   ├── PokedexService.java
+│                       │   └── AutenticacaoService.java
+│                       │
+│                       ├── repository/
+│                       │   │
+│                       │   ├── interfaces/
+│                       │   │   ├── IPokemonRepository.java
+│                       │   │   ├── ICartaConhecidaRepository.java
+│                       │   │   ├── IPokedexRepository.java
+│                       │   │   └── IJogadorRepository.java
+│                       │   │
+│                       │   └── implementations/
+│                       │       ├── PokemonRepository.java
+│                       │       ├── CartaConhecidaRepository.java
+│                       │       ├── PokedexRepository.java
+│                       │       └── JogadorRepository.java
+│                       │
+│                       ├── model/
+│                       │   ├── Pokemon.java
+│                       │   ├── CartaConhecida.java
+│                       │   ├── Jogador.java
+│                       │   └── Pokedex.java
+│                       │
+│                       └── client/
+│                           ├── PokeApiClient.java
+│                           ├── AuthServiceClient.java
+│                           ├── TrocasClient.java
+│                           └── DistribuicaoClient.java
+│
+└── docs/
+    ├── diagrama_classes/
+    ├── casos_de_uso/
+    └── arquitetura/
+```
