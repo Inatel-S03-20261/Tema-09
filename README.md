@@ -61,7 +61,7 @@ O mesmo princípio foi aplicado na comunicação com componentes responsáveis p
 
 Dessa forma, o sistema se torna menos acoplado, permitindo que mudanças na forma de persistência ou na integração com serviços externos sejam realizadas por meio da criação de novas implementações dessas interfaces, sem a necessidade de modificar as classes de serviço. Isso facilita a manutenção, evolução e testabilidade do sistema.
 
-## Estrura de Pastas
+## Estrutura de Pastas
 
 ```text
 pokedex/
