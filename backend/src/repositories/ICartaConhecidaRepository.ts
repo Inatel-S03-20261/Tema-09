@@ -1,4 +1,4 @@
-import { CartaConhecida } from "../models/CartaConhecida";
+import { CartaConhecida } from "../../../backend/src/models/CartaConhecida";
 
 export interface ICartaConhecidaRepository {
     listarPorJogador(idJogador: number): Promise<CartaConhecida[]>;
