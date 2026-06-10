@@ -1,8 +1,45 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import type { PokemonDTO } from '../types/PokemonDTO';
 
 export function usePokemon() {
-  const buscarPokemon = (): void => {};
-  const verDetalhes = (): void => {};
+  const [pokemons, setPokemons] = useState<PokemonDTO[]>([]);
+  const [pokemonSelecionado, setPokemonSelecionado] = useState<PokemonDTO | null>(null);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState<string | null>(null);
 
-  return { buscarPokemon, verDetalhes };
+  useEffect(() => {
+    buscarPokemons();
+  }, []);
+
+  const buscarPokemons = async (): Promise<void> => {
+    try {
+      setCarregando(true);
+      const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=20');
+      const data = await response.json();
+
+      const detalhes = await Promise.all(
+        data.results.map(async (p: { name: string; url: string }) => {
+          const res = await fetch(p.url);
+          const info = await res.json();
+          return {
+            nome: info.name,
+            tipo: info.types[0].type.name,
+            imageUrl: info.sprites.other['official-artwork'].front_default,
+          } as PokemonDTO;
+        })
+      );
+
+      setPokemons(detalhes);
+    } catch {
+      setErro('Erro ao buscar pokémons');
+    } finally {
+      setCarregando(false);
+    }
+  };
+
+  const verDetalhes = (pokemon: PokemonDTO): void => {
+    setPokemonSelecionado(pokemon);
+  };
+
+  return { pokemons, pokemonSelecionado, carregando, erro, buscarPokemon: buscarPokemons, verDetalhes };
 }
