@@ -1,73 +1,32 @@
-# React + TypeScript + Vite
+# Pokédex híbrida com PokeAPI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Projeto React + Vite pronto para rodar localmente, sem alterar o repositório original no GitHub.
 
-Currently, two official plugins are available:
+## O que esta versão faz
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Login simples do jogador para simular autenticação.
+- Busca os 100 primeiros Pokémon pela PokeAPI.
+- Carrega nome, número, tipos, imagem, habilidades, ataques, altura, peso e stats pelo endpoint `/pokemon`.
+- Busca a descrição apenas quando o usuário abre os detalhes de um Pokémon, usando o endpoint `/pokemon-species`.
+- Salva o histórico de cartas conhecidas/trocadas no `localStorage`.
+- Salva cache dos dados da API no `localStorage`, para não fazer todas as requisições toda vez que abrir a página.
+- Permite busca, filtros por tipo/status, atualização de carta recebida/trocada e reset da demo.
 
-## React Compiler
+## Como rodar
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Depois abra o link mostrado no terminal, geralmente:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```text
+http://localhost:5173/
 ```
+
+Na tela de login, digite qualquer nome de jogador e qualquer senha.
+
+## Observação para apresentação
+
+Essa versão é híbrida porque os dados dos Pokémon vêm de uma API externa, mas o progresso do jogador ainda é salvo localmente. Em uma versão final, o histórico de cartas poderia ir para o backend/banco de dados do projeto.
