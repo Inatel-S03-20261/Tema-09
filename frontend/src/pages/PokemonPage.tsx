@@ -63,13 +63,20 @@ export function PokemonPage({ carta }: PokemonPageProps) {
   const bloqueada = carta.status === 'nao_conhecida';
 
   return (
-    <aside className="detalhes">
-      <span className="numero">#{String(carta.id).padStart(3, '0')}</span>
-      <img src={carta.imagemUrl} alt={carta.nome} />
-      <h2>{bloqueada ? 'Pokémon não conhecido' : carta.nome}</h2>
+      <aside className={`detalhes ${bloqueada ? 'detalhes-bloqueada' : ''}`}>
+          <span className="numero">#{String(carta.id).padStart(3, '0')}</span>
+
+          <img
+            className={bloqueada ? 'sprite-bloqueado' : ''}
+            src={carta.imagemUrl}
+            alt={bloqueada ? 'Silhueta de Pokémon desconhecido' : carta.nome}
+          />
+
+          <h2>{bloqueada ? 'Pokémon não conhecido' : carta.nome}</h2>
 
       {bloqueada ? (
-        <p>Essa carta ainda não foi registrada no histórico do jogador.</p>
+        <p>Essa carta ainda não foi registrada no histórico do jogador. Os detalhes serão liberados futuramente quando a carta for obtida por batalha,
+  troca ou distribuição.</p>
       ) : (
         <>
           {carregandoDescricao && <p>Carregando descrição pela PokeAPI...</p>}

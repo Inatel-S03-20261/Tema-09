@@ -22,6 +22,19 @@ const estilosPokedex = `
     font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   }
 
+  .pokedex-console-page .detalhes-bloqueada img,
+  .pokedex-console-page .detalhes img.sprite-bloqueado {
+    filter:
+      brightness(0)
+      invert(38%)
+      drop-shadow(0 18px 18px rgba(0, 0, 0, 0.45));
+    opacity: 0.7;
+  }
+
+  .pokedex-console-page .detalhes-bloqueada h2 {
+    color: #94a3b8;
+  }
+
   .dex-console {
     width: min(1380px, 100%);
     margin: 0 auto;
