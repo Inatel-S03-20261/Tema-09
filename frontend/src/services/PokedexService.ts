@@ -2,7 +2,7 @@ import type { CartaConhecidaDTO, StatusCarta } from '../dto/CartaConhecidaDTO';
 import type { PokedexDTO } from '../dto/PokedexDTO';
 import type { PokemonDTO, TipoPokemon } from '../dto/PokemonDTO';
 
-const STORAGE_HISTORICO_KEY = 'pokedex-cartas-conhecidas';
+const STORAGE_HISTORICO_KEY = 'pokedex-cartas-conhecidas-v2';
 const STORAGE_POKEMONS_CACHE_KEY = 'pokedex-pokeapi-cache-v1';
 const STORAGE_DESCRICOES_CACHE_KEY = 'pokedex-pokeapi-descricoes-v1';
 const CACHE_DURATION_MS = 1000 * 60 * 60 * 24;

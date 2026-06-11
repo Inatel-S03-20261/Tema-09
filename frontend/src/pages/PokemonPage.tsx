@@ -69,7 +69,7 @@ export function PokemonPage({ carta }: PokemonPageProps) {
       <h2>{bloqueada ? 'Pokémon não conhecido' : carta.nome}</h2>
 
       {bloqueada ? (
-        <p>Essa carta ainda não foi registrada no histórico do jogador. Marque como recebida para liberar os detalhes.</p>
+        <p>Essa carta ainda não foi registrada no histórico do jogador.</p>
       ) : (
         <>
           {carregandoDescricao && <p>Carregando descrição pela PokeAPI...</p>}
@@ -115,8 +115,6 @@ export function PokemonPage({ carta }: PokemonPageProps) {
               </div>
             ))}
           </div>
-
-          <small>Última atualização: {carta.dataUltimaAtualizacao ?? 'sem registro'}</small>
         </>
       )}
     </aside>

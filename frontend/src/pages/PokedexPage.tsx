@@ -901,7 +901,7 @@ const {
 
               <div className="dex-action-group">
                 <button className="dex-action-button" onClick={atualizarDadosDaApi}>
-                  Atualizar API
+                  Sincronizar Pokédex
                 </button>
               </div>
             </section>
