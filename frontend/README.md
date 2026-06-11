@@ -1,6 +1,6 @@
 # Pokédex híbrida com PokeAPI
 
-Projeto React + Vite pronto para rodar localmente, sem alterar o repositório original no GitHub.
+Projeto React + Vite pronto para rodar localmente.
 
 ## O que esta versão faz
 
@@ -27,6 +27,6 @@ http://localhost:5173/
 
 Na tela de login, digite qualquer nome de jogador e qualquer senha.
 
-## Observação para apresentação
+## Observação
 
 Essa versão é híbrida porque os dados dos Pokémon vêm de uma API externa, mas o progresso do jogador ainda é salvo localmente. Em uma versão final, o histórico de cartas poderia ir para o backend/banco de dados do projeto.
