@@ -35,7 +35,7 @@ export function PokemonPage({ carta }: PokemonPageProps) {
         }
       } catch (error) {
         if (componenteAtivo) {
-          setErroDescricao(error instanceof Error ? error.message : 'Erro ao carregar descrição.');
+          setErroDescricao(error instanceof Error ? error.message : 'Erro ao carregar descricao.');
         }
       } finally {
         if (componenteAtivo) {
@@ -54,76 +54,142 @@ export function PokemonPage({ carta }: PokemonPageProps) {
   if (!carta) {
     return (
       <aside className="detalhes vazio">
-        <h2>Detalhes do Pokémon</h2>
-        <p>Selecione uma carta para consultar os dados do Pokémon.</p>
+        <h2>Detalhes do Pokemon</h2>
+        <p>Selecione uma carta para consultar os dados do Pokemon.</p>
       </aside>
     );
   }
 
   const bloqueada = carta.status === 'nao_conhecida';
+  const hp = carta.stats.find((stat) => stat.nome.toLowerCase() === 'hp')?.valor;
 
   return (
-      <aside className={`detalhes ${bloqueada ? 'detalhes-bloqueada' : ''}`}>
-          <span className="numero">#{String(carta.id).padStart(3, '0')}</span>
+    <aside className={`detalhes dex-inspection ${bloqueada ? 'detalhes-bloqueada' : ''}`}>
+      <div className="dex-inspection-crumb">
+        <span>Kanto Region</span>
+        <strong>
+          {bloqueada ? 'Pokemon desconhecido' : `${carta.nome} #${String(carta.id).padStart(3, '0')}`}
+        </strong>
+      </div>
 
-          <img
-            className={bloqueada ? 'sprite-bloqueado' : ''}
-            src={carta.imagemUrl}
-            alt={bloqueada ? 'Silhueta de Pokémon desconhecido' : carta.nome}
-          />
+      <section className="dex-inspection-grid">
+        <div className="dex-inspection-left">
+          <div className="dex-portrait-card">
+            <img
+              className={bloqueada ? 'sprite-bloqueado' : ''}
+              src={carta.imagemUrl}
+              alt={bloqueada ? 'Silhueta de Pokemon desconhecido' : carta.nome}
+            />
 
-          <h2>{bloqueada ? 'Pokémon não conhecido' : carta.nome}</h2>
-
-      {bloqueada ? (
-        <p>Essa carta ainda não foi registrada no histórico do jogador. Os detalhes serão liberados futuramente quando a carta for obtida por batalha,
-  troca ou distribuição.</p>
-      ) : (
-        <>
-          {carregandoDescricao && <p>Carregando descrição pela PokeAPI...</p>}
-          {erroDescricao && <p className="erro">{erroDescricao}</p>}
-          {!carregandoDescricao && !erroDescricao && <p>{descricao}</p>}
-
-          <div className="chips">
-            <span>{carta.tipo}</span>
-            {carta.tipoSecundario && <span>{carta.tipoSecundario}</span>}
+            <div className="dex-portrait-info">
+              <small>{bloqueada ? 'Dados bloqueados' : 'Pokemon registrado'}</small>
+              <h2>{bloqueada ? '???' : carta.nome}</h2>
+              <strong>
+                #{String(carta.id).padStart(3, '0')}
+                {hp ? ` HP ${hp}` : ''}
+              </strong>
+            </div>
           </div>
 
-          <dl className="medidas">
+          <div className="dex-inspection-chips">
             <div>
-              <dt>Altura</dt>
-              <dd>{carta.altura.toFixed(1)} m</dd>
-            </div>
-            <div>
-              <dt>Peso</dt>
-              <dd>{carta.peso.toFixed(1)} kg</dd>
-            </div>
-          </dl>
-
-          <h3>Habilidades</h3>
-          <ul>
-            {carta.habilidades.map((habilidade) => (
-              <li key={habilidade}>{habilidade}</li>
-            ))}
-          </ul>
-
-          <h3>Ataques</h3>
-          <ul>
-            {carta.ataques.map((ataque) => (
-              <li key={ataque}>{ataque}</li>
-            ))}
-          </ul>
-
-          <h3>Stats</h3>
-          <div className="stats">
-            {carta.stats.map((stat) => (
-              <div key={stat.nome} className="stat-item">
-                <span>{stat.nome}</span>
-                <strong>{stat.valor}</strong>
+              <span className="dex-chip-group-label">Tipos</span>
+              <div className="chips">
+                <span>{bloqueada ? '???' : carta.tipo}</span>
+                {!bloqueada && carta.tipoSecundario && <span>{carta.tipoSecundario}</span>}
               </div>
-            ))}
+            </div>
+
+            <div>
+              <span className="dex-chip-group-label">Habilidades</span>
+              <div className="chips">
+                {bloqueada ? (
+                  <span>???</span>
+                ) : (
+                  carta.habilidades.slice(0, 2).map((habilidade) => (
+                    <span key={habilidade}>{habilidade}</span>
+                  ))
+                )}
+              </div>
+            </div>
           </div>
-        </>
-      )}
+        </div>
+
+        <div className="dex-inspection-right">
+          {bloqueada ? (
+            <section className="dex-inspection-section">
+              <h3 className="dex-inspection-title">
+                <span className="dex-inspection-icon">▮</span>
+                Dados bloqueados
+              </h3>
+              <div className="dex-entry-panel">
+                <p>
+                  Essa carta ainda nao foi registrada no historico do jogador. Os detalhes serao
+                  liberados futuramente quando a carta for obtida por batalha, troca ou distribuicao.
+                </p>
+              </div>
+            </section>
+          ) : (
+            <>
+              <section className="dex-inspection-section">
+                <h3 className="dex-inspection-title">
+                  <span className="dex-inspection-icon">▮</span>
+                  Battle Stats
+                </h3>
+
+                <div className="stats">
+                  {carta.stats.map((stat) => (
+                    <div key={stat.nome} className="stat-item">
+                      <span>{stat.nome}</span>
+                      <strong>{stat.valor}</strong>
+                      <div className="stat-bar" aria-hidden="true">
+                        <span style={{ width: `${Math.min(100, (stat.valor / 160) * 100)}%` }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              <section className="dex-inspection-section">
+                <h3 className="dex-inspection-title">
+                  <span className="dex-inspection-icon">▮</span>
+                  Pokedex Entry
+                </h3>
+
+                <div className="dex-entry-panel">
+                  {carregandoDescricao && <p>Carregando descricao pela PokeAPI...</p>}
+                  {erroDescricao && <p className="erro">{erroDescricao}</p>}
+                  {!carregandoDescricao && !erroDescricao && <p>{descricao}</p>}
+                </div>
+              </section>
+
+              <dl className="medidas">
+                <div>
+                  <dt>Altura</dt>
+                  <dd>{carta.altura.toFixed(1)} m</dd>
+                </div>
+                <div>
+                  <dt>Peso</dt>
+                  <dd>{carta.peso.toFixed(1)} kg</dd>
+                </div>
+              </dl>
+
+              <section className="dex-inspection-section">
+                <h3 className="dex-inspection-title">
+                  <span className="dex-inspection-icon">▮</span>
+                  Ataques
+                </h3>
+
+                <ul className="dex-attack-list">
+                  {carta.ataques.map((ataque) => (
+                    <li key={ataque}>{ataque}</li>
+                  ))}
+                </ul>
+              </section>
+            </>
+          )}
+        </div>
+      </section>
     </aside>
   );
 }

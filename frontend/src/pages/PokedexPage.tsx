@@ -154,14 +154,19 @@ const estilosPokedex = `
 
   .dex-body {
     display: grid;
-    grid-template-columns: 320px 1fr;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
     min-height: calc(100vh - 210px);
   }
 
   .dex-side-panel {
     padding: 30px 24px;
     background: linear-gradient(90deg, #f00635 0%, #e8062f 100%);
-    border-right: 4px solid rgba(80, 0, 16, 0.16);
+    border-bottom: 4px solid rgba(80, 0, 16, 0.16);
+    display: grid;
+    grid-template-columns: minmax(280px, 1fr) minmax(320px, 1.25fr);
+    gap: 24px;
+    align-items: stretch;
   }
 
   .dex-screen {
@@ -237,9 +242,9 @@ const estilosPokedex = `
   }
 
   .dex-controls-game {
-    margin-top: 28px;
     display: grid;
     gap: 22px;
+    align-content: center;
   }
 
   .dex-dpad-area {
@@ -250,8 +255,8 @@ const estilosPokedex = `
 
   .dex-dpad {
     position: relative;
-    width: 92px;
-    height: 92px;
+    width: 66px;
+    height: 66px;
   }
 
   .dex-dpad::before,
@@ -264,17 +269,17 @@ const estilosPokedex = `
   }
 
   .dex-dpad::before {
-    width: 30px;
-    height: 92px;
-    left: 31px;
+    width: 22px;
+    height: 66px;
+    left: 22px;
     top: 0;
   }
 
   .dex-dpad::after {
-    width: 92px;
-    height: 30px;
+    width: 66px;
+    height: 22px;
     left: 0;
-    top: 31px;
+    top: 22px;
   }
 
   .dex-round-buttons {
@@ -283,8 +288,8 @@ const estilosPokedex = `
   }
 
   .dex-round-button {
-    width: 52px;
-    height: 52px;
+    width: 38px;
+    height: 38px;
     border: 0;
     border-radius: 50%;
     color: #ffffff;
@@ -301,6 +306,7 @@ const estilosPokedex = `
   .dex-main-panel {
     padding: 30px;
     background: rgba(151, 0, 31, 0.22);
+    min-width: 0;
   }
 
   .dex-title-area {
@@ -426,8 +432,7 @@ const estilosPokedex = `
   .pokedex-console-page .conteudo {
     width: 100%;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 360px;
-    gap: 22px;
+    grid-template-columns: minmax(0, 1fr);
     align-items: start;
   }
 
@@ -538,9 +543,7 @@ const estilosPokedex = `
   }
 
   .pokedex-console-page .detalhes {
-    position: sticky;
-    top: 22px;
-    max-height: calc(100vh - 70px);
+    max-height: min(76vh, 720px);
     overflow: auto;
     padding: 24px;
     border: 5px solid #1f2937;
@@ -551,6 +554,61 @@ const estilosPokedex = `
     box-shadow:
       inset 0 0 45px rgba(0, 0, 0, 0.65),
       0 18px 42px rgba(0, 0, 0, 0.20);
+  }
+
+  .dex-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    background: rgba(2, 6, 23, 0.72);
+    backdrop-filter: blur(8px);
+  }
+
+  .dex-modal {
+    position: relative;
+    width: min(560px, 100%);
+    max-height: calc(100vh - 48px);
+    animation: dex-modal-enter 0.18s ease-out;
+  }
+
+  .dex-modal .detalhes {
+    width: 100%;
+  }
+
+  .dex-modal-close {
+    position: absolute;
+    top: -14px;
+    right: -14px;
+    z-index: 1;
+    width: 42px;
+    height: 42px;
+    border: 0;
+    border-radius: 50%;
+    color: #ffffff;
+    background: #e8062f;
+    font-size: 1.45rem;
+    font-weight: 900;
+    line-height: 1;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+  }
+
+  .dex-modal-close:hover {
+    transform: translateY(-1px);
+  }
+
+  @keyframes dex-modal-enter {
+    from {
+      opacity: 0;
+      transform: translateY(10px) scale(0.98);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
   }
 
   .pokedex-console-page .detalhes.vazio {
@@ -750,13 +808,8 @@ const estilosPokedex = `
   }
 
   @media (max-width: 1120px) {
-    .dex-body {
-      grid-template-columns: 1fr;
-    }
-
     .dex-side-panel {
-      border-right: 0;
-      border-bottom: 4px solid rgba(80, 0, 16, 0.16);
+      grid-template-columns: 1fr;
     }
 
     .dex-controls-game {
@@ -766,11 +819,6 @@ const estilosPokedex = `
 
     .pokedex-console-page .conteudo {
       grid-template-columns: 1fr;
-    }
-
-    .pokedex-console-page .detalhes {
-      position: static;
-      max-height: none;
     }
   }
 
@@ -804,6 +852,15 @@ const estilosPokedex = `
 
     .pokedex-console-page .grade-cartas {
       grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+    }
+
+    .dex-modal-backdrop {
+      padding: 16px;
+    }
+
+    .dex-modal-close {
+      top: 10px;
+      right: 10px;
     }
   }
 `;
@@ -887,29 +944,17 @@ const {
         </header>
 
         <div className="dex-body">
-          <aside className="dex-side-panel">
-            <section className="dex-screen">
-              <h2 className="dex-screen-title">Pokédex System</h2>
+          <section className="dex-main-panel">
+            <section className="dex-title-area">
+              <div>
+                <span className="dex-badge">Game Collection Interface</span>
+                <h1>Pokédex</h1>
+              </div>
 
-              <div className="dex-stat-card">
+          <section className="dex-controls-game">
+              <div className="dex-mini-screen">
                 <span>Cartas conhecidas</span>
                 <strong>{pokedex.totalConhecidas}</strong>
-              </div>
-
-              <div className="dex-stat-card">
-                <span>Cartas carregadas</span>
-                <strong>{pokedex.totalCartas}</strong>
-              </div>
-            </section>
-
-            <section className="dex-controls-game">
-              <div className="dex-dpad-area">
-                <div className="dex-dpad" />
-
-                <div className="dex-round-buttons">
-                  <button className="dex-round-button" type="button">A</button>
-                  <button className="dex-round-button" type="button">B</button>
-                </div>
               </div>
 
               <div className="dex-action-group">
@@ -918,19 +963,6 @@ const {
                 </button>
               </div>
             </section>
-          </aside>
-
-          <section className="dex-main-panel">
-            <section className="dex-title-area">
-              <div>
-                <span className="dex-badge">Game Collection Interface</span>
-                <h1>Pokédex</h1>
-              </div>
-
-              <div className="dex-mini-screen">
-                <strong>{cartasFiltradas.length}</strong>
-                <span>resultados na tela</span>
-              </div>
             </section>
 
             <section className="controles">
@@ -968,11 +1000,36 @@ const {
                   </div>
                 )}
               </div>
-
-              <PokemonPage carta={cartaSelecionada} />
             </section>
           </section>
         </div>
+
+        {cartaSelecionada && (
+          <div
+            className="dex-modal-backdrop"
+            role="presentation"
+            onClick={() => setPokemonSelecionadoId(undefined)}
+          >
+            <section
+              className="dex-modal"
+              role="dialog"
+              aria-modal="true"
+              aria-label={`Detalhes de ${cartaSelecionada.nome}`}
+              onClick={(event) => event.stopPropagation()}
+            >
+              <button
+                className="dex-modal-close"
+                type="button"
+                aria-label="Fechar detalhes"
+                onClick={() => setPokemonSelecionadoId(undefined)}
+              >
+                ×
+              </button>
+
+              <PokemonPage carta={cartaSelecionada} />
+            </section>
+          </div>
+        )}
 
         <footer className="dex-footer">
           <div className="dex-footer-lines">
