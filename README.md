@@ -4,7 +4,7 @@
 
 Este é um breve resumo de um projeto que envolve a aplicação de frameworks de front-end na página de gerenciamento de cartas de uma Pokédex. O projeto foi desenvolvido para a disciplina de Arquitetura de Software.
 
-[![Whats-App-Image-2026-03-16-at-23-35-59.jpg](https://i.postimg.cc/4yKVwykT/Whats-App-Image-2026-03-16-at-23-35-59.jpg)](https://postimg.cc/MfSnpWps)
+![Pokédex](images/Pokedex.jpg)
 
 ## Descrição do projeto
 
@@ -25,29 +25,29 @@ Além disso, a implementação de filtros permitirá ao jogador escolher caracte
 
 ### Página de Login
 
-[![Whats-App-Image-2026-03-17-at-08-37-20.jpg](https://i.postimg.cc/R0sx1b6H/Whats-App-Image-2026-03-17-at-08-37-20.jpg)](https://postimg.cc/sBhLsmJj)
+![Login](images/Login.jpg)
 
 ### Página Principal
 
-[![Whats-App-Image-2026-03-17-at-08-37-20-(2).jpg](https://i.postimg.cc/50K902qZ/Whats-App-Image-2026-03-17-at-08-37-20-(2).jpg)](https://postimg.cc/XGF613P8)
+![Principal](images/Principal.jpg)
 
 ### Coleção de Cartas
 
-[![Whats-App-Image-2026-03-17-at-08-37-21.jpg](https://i.postimg.cc/c1VgMFwB/Whats-App-Image-2026-03-17-at-08-37-21.jpg)](https://postimg.cc/237SCFH1)
+![Coleção](images/Colecao.jpg)
 
 ### Inspeção de Cartas
 
-[![Whats-App-Image-2026-03-17-at-08-37-20-(1).jpg](https://i.postimg.cc/FRd8yFXM/Whats-App-Image-2026-03-17-at-08-37-20-(1).jpg)](https://postimg.cc/YG7dkH9R)
+![Inspeção](images/Inspecao.jpg)
 
 ## Diagramas
 
 ### Casos de Uso
 
-[![casos-de-uso.jpg](https://i.postimg.cc/bYCsWMG0/casos-de-uso.jpg)](https://postimg.cc/Sj9Szgfj)
+![Casos de Uso](images/Casos_de_Uso.png)
 
 ### Classes
 
-[![CASO-DE-USO-Copia-do-Diagrama-de-classes-Arquitetura-drawio.png](https://i.postimg.cc/m2BGQz0N/CASO-DE-USO-Copia-do-Diagrama-de-classes-Arquitetura-drawio.png)](https://postimg.cc/0rW3vQ5b)
+![Classes](images/Classes.png)
 
 ## Aplicações de SOLID no projeto
 
@@ -60,6 +60,24 @@ Por fim, visando atender ao Princípio da Inversão de Dependência (DIP), foram
 O mesmo princípio foi aplicado na comunicação com componentes responsáveis pela interação com sistemas externos, modelados no diagrama como controllers. Foram definidas interfaces para esses elementos, que são implementadas pelas classes concretas responsáveis pelo acesso às APIs externas. As classes de serviço passam a depender dessas abstrações, promovendo menor acoplamento e maior flexibilidade na substituição ou evolução dessas integrações.
 
 Dessa forma, o sistema se torna menos acoplado, permitindo que mudanças na forma de persistência ou na integração com serviços externos sejam realizadas por meio da criação de novas implementações dessas interfaces, sem a necessidade de modificar as classes de serviço. Isso facilita a manutenção, evolução e testabilidade do sistema.
+
+## Padrões Arquiteturais
+
+Os padrões arquiteturais utilizados na aplicação foram Single Page Application (SPA) no frontend e Service-Oriented Architecture (SOA) no backend.
+
+No frontend, foi adotada a arquitetura SPA utilizando React e TypeScript. Nessa abordagem, toda a interface é carregada em uma única página, e a navegação entre funcionalidades ocorre dinamicamente por meio de componentes e páginas, sem a necessidade de recarregamento completo da aplicação. A estrutura foi organizada em Pages (responsáveis pelas telas principais da aplicação), Components (representando elementos reutilizáveis da interface), Hooks (que concentram a lógica de interação com os serviços), e DTOs (utilizados para a transferência de dados entre as camadas).
+
+No backend, foi empregada a arquitetura SOA, na qual as funcionalidades do sistema são organizadas em serviços independentes e especializados. Cada serviço possui uma responsabilidade bem definida, como autenticação de jogadores, gerenciamento da Pokédex, consulta de Pokémon, controle de cartas conhecidas e atualização de histórico. Essa divisão favorece a modularidade, reutilização de código, manutenção e evolução do sistema.
+
+Além disso, a arquitetura foi estruturada em camadas:
+
+* Controller, responsável por receber as requisições e intermediar a comunicação com os serviços;
+* Service, responsável pela implementação das regras de negócio;
+* Repository, responsável pelo acesso e persistência de dados;
+* Model, responsável pela representação das entidades do domínio da aplicação;
+* Clients/APIs Externas, responsáveis pela integração com sistemas externos, como a PokéAPI, API de Jogadores, API de Distribuição de Cartas e API de Trocas.
+
+A comunicação entre essas camadas ocorre por meio de interfaces e abstrações, reduzindo o acoplamento entre os componentes e facilitando a manutenção, a testabilidade e a evolução da aplicação.
 
 ## Estrutura de Pastas
 
