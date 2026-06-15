@@ -11,8 +11,13 @@ Este é um breve resumo de um projeto que envolve a aplicação de frameworks de
 Responsável por gerenciar as cartas conhecidas por cada jogador. A aplicação deve mostrar, por meio de uma interface gráfica, quantas cartas existem e quantas o jogador já conheceu (já teve em seu baralho). Mesmo que um jogador trocar uma carta, as informações da carta trocada continuam disponíveis na lista.
 
 ## Ferramentas a serem utilizadas
+
 * React
 * TypeScript
+* Python
+* Flask
+* MySQL
+* MySQL Workbench
 
 ## Implementações
 
@@ -79,6 +84,41 @@ Além disso, a arquitetura foi estruturada em camadas:
 
 A comunicação entre essas camadas ocorre por meio de interfaces e abstrações, reduzindo o acoplamento entre os componentes e facilitando a manutenção, a testabilidade e a evolução da aplicação.
 
+## Banco de Dados
+
+O banco de dados da aplicação foi modelado utilizando MySQL Workbench e implementado em MySQL.
+
+A modelagem foi desenvolvida com base nas entidades presentes no diagrama de classes da aplicação, permitindo o gerenciamento dos jogadores, Pokémons conhecidos e informações da Pokédex.
+
+Foram criadas as seguintes tabelas:
+
+* jogador
+* pokemon
+* pokedex
+* cartaconhecida
+
+A modelagem do banco encontra-se no arquivo:
+
+```text
+backend/database/pokedex.mwb
+```
+O script SQL utilizado para criação do banco e das tabelas encontra-se em:
+```text
+backend/database/pokedex_db.sql
+```
+A conexão entre o backend e o banco de dados foi implementada no arquivo:
+```text
+backend/src/database.py
+```
+O acesso aos dados foi organizado utilizando o padrão Repository, por meio das classes:
+
+JogadorRepository
+PokemonRepository
+PokedexRepository
+CartaConhecidaRepository
+
+Os repositories são responsáveis por realizar as consultas e operações de persistência no banco de dados, mantendo a separação entre as regras de negócio e o acesso aos dados.
+
 ## Estrutura de Pastas
 
 ```text
@@ -109,48 +149,42 @@ pokedex/
 │       └── App.tsx
 │
 ├── backend/
-│   └── src/
-│       └── main/
-│           └── java/
-│               └── com/
-│                   └── pokedex/
-│                       │
-│                       ├── controller/
-│                       │   ├── PokedexController.java
-│                       │   └── AutenticacaoController.java
-│                       │
-│                       ├── service/
-│                       │   ├── PokemonService.java
-│                       │   ├── CartaService.java
-│                       │   ├── HistoricoService.java
-│                       │   ├── PokedexService.java
-│                       │   └── AutenticacaoService.java
-│                       │
-│                       ├── repository/
-│                       │   │
-│                       │   ├── interfaces/
-│                       │   │   ├── IPokemonRepository.java
-│                       │   │   ├── ICartaConhecidaRepository.java
-│                       │   │   ├── IPokedexRepository.java
-│                       │   │   └── IJogadorRepository.java
-│                       │   │
-│                       │   └── implementations/
-│                       │       ├── PokemonRepository.java
-│                       │       ├── CartaConhecidaRepository.java
-│                       │       ├── PokedexRepository.java
-│                       │       └── JogadorRepository.java
-│                       │
-│                       ├── model/
-│                       │   ├── Pokemon.java
-│                       │   ├── CartaConhecida.java
-│                       │   ├── Jogador.java
-│                       │   └── Pokedex.java
-│                       │
-│                       └── client/
-│                           ├── PokeApiClient.java
-│                           ├── AuthServiceClient.java
-│                           ├── TrocasClient.java
-│                           └── DistribuicaoClient.java
+│   ├── database/
+│   │   ├── pokedex.mwb
+│   │   └── pokedex_db.sql
+│   │
+│   ├── src/
+│   │   ├── clients/
+│   │   │   └── auth_service_client.py
+│   │   │
+│   │   ├── controllers/
+│   │   │   ├── autenticacao_controller.py
+│   │   │   └── pokedex_controller.py
+│   │   │
+│   │   ├── models/
+│   │   │   ├── jogador.py
+│   │   │   ├── pokemon.py
+│   │   │   ├── pokedex.py
+│   │   │   └── carta_conhecida.py
+│   │   │
+│   │   ├── repositories/
+│   │   │   ├── jogador_repository.py
+│   │   │   ├── pokemon_repository.py
+│   │   │   ├── pokedex_repository.py
+│   │   │   └── carta_conhecida_repository.py
+│   │   │
+│   │   ├── services/
+│   │   │   ├── autenticacao_service.py
+│   │   │   ├── pokemon_service.py
+│   │   │   ├── pokedex_service.py
+│   │   │   ├── cartas_service.py
+│   │   │   └── historico_service.py
+│   │   │
+│   │   ├── app.py
+│   │   └── database.py
+│   │
+│   ├── README.md
+│   └── requirements.txt
 │
 └── docs/
     ├── diagrama_classes/
