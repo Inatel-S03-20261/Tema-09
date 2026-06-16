@@ -84,6 +84,22 @@ Além disso, a arquitetura foi estruturada em camadas:
 
 A comunicação entre essas camadas ocorre por meio de interfaces e abstrações, reduzindo o acoplamento entre os componentes e facilitando a manutenção, a testabilidade e a evolução da aplicação.
 
+## Design Patterns
+
+Os padrões de projeto implementados foram Singleton, Facade e Observer.
+
+### Singleton
+
+O padrão Singleton foi aplicado na classe DatabaseConnection, responsável pelo gerenciamento da conexão com o banco de dados. Esse padrão garante que exista apenas uma instância da conexão durante toda a execução da aplicação, evitando a criação desnecessária de múltiplas conexões e centralizando o acesso ao banco de dados.
+
+### Facade
+
+O padrão Facade foi aplicado na classe PokedexService, que atua como uma fachada para os demais serviços do sistema. Em vez de os controladores acessarem diretamente diversos serviços especializados, eles interagem apenas com a fachada, que coordena as chamadas necessárias internamente. Essa abordagem simplifica o uso da camada de serviços e reduz o acoplamento entre os componentes da aplicação.
+
+### Observer
+
+O padrão Observer foi aplicado entre as classes CartasService e HistoricoService. Nesse contexto, CartasService atua como Subject, enquanto HistoricoService atua como Observer. Sempre que uma carta é registrada como recebida ou trocada, o CartasService notifica seus observadores, permitindo que o histórico seja atualizado automaticamente. Dessa forma, a atualização do histórico ocorre de maneira desacoplada, sem que o serviço de cartas precise conhecer os detalhes da implementação do histórico.
+
 ## Banco de Dados
 
 O banco de dados da aplicação foi modelado utilizando MySQL Workbench e implementado em MySQL.
