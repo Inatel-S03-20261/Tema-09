@@ -68,68 +68,13 @@ class CartaConhecidaRepository:
         cartas
     ):
 
-        conn = get_connection()
-
-        cursor = conn.cursor()
-
-        #
-        # Descobre a pokedex do jogador
-        #
-
-        cursor.execute(
-            """
-            SELECT idpokedex
-            FROM pokedex
-            WHERE jogador_idjogador = %s
-            """,
-            (jogador_id,)
-        )
-
-        resultado = cursor.fetchone()
-
-        if not resultado:
-
-            cursor.close()
-
-            return
-
-        pokedex_id = resultado[0]
-
         for carta in cartas:
 
-            cursor.execute(
-                """
-                INSERT INTO cartaconhecida
-                (
-                    data_primeiro_contato,
-                    origem,
-                    ja_possui,
-                    possui_atualmente,
-                    data_ultima_atualizacao,
-                    pokedex_idpokedex,
-                    pokemon_idpokemon
-                )
-                VALUES
-                (
-                    NOW(),
-                    %s,
-                    TRUE,
-                    TRUE,
-                    NOW(),
-                    %s,
-                    %s
-                )
-                """,
-                (
-                    carta["origem"],
-                    pokedex_id,
-                    carta["pokemon_id"]
-                )
+            self.adicionar_posse(
+                jogador_id,
+                carta["pokemon_id"],
+                carta["origem"]
             )
-
-        conn.commit()
-
-        cursor.close()
 
     def remover_posse(
         self,
@@ -169,7 +114,8 @@ class CartaConhecidaRepository:
     def adicionar_posse(
         self,
         jogador_id,
-        pokemon_id
+        pokemon_id,
+        origem="Troca"
     ):
 
         conn = get_connection()
@@ -244,6 +190,12 @@ class CartaConhecidaRepository:
 
             pokedex = cursor.fetchone()
 
+            if not pokedex:
+
+                cursor.close()
+
+                return
+
             cursor.execute(
                 """
                 INSERT INTO cartaconhecida
@@ -259,7 +211,7 @@ class CartaConhecidaRepository:
                 VALUES
                 (
                     NOW(),
-                    'Troca',
+                    %s,
                     TRUE,
                     TRUE,
                     NOW(),
@@ -268,6 +220,7 @@ class CartaConhecidaRepository:
                 )
                 """,
                 (
+                    origem,
                     pokedex["idpokedex"],
                     pokemon_id
                 )

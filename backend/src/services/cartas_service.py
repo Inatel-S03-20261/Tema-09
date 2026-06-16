@@ -86,7 +86,7 @@ class CartasService(Subject):
 
         cartas_recebidas = (
             self.distribuicao_client
-            .obter_cartas_iniciais(
+            .obter_cartas(
                 jogador_id
             )
         )
@@ -199,4 +199,80 @@ class CartasService(Subject):
 
         self.pokedex_repository.atualizar_estatisticas(
             jogador_id
+        )
+
+    def registrar_troca_entre_jogadores(
+        self,
+        jogador_origem,
+        jogador_destino,
+        pokemon_entregue,
+        pokemon_recebido
+    ):
+
+        self.repository.remover_posse(
+            jogador_origem,
+            pokemon_entregue
+        )
+
+        self.notificar_observers(
+            {
+                "jogador_id": jogador_origem,
+                "pokemon_id": pokemon_entregue,
+                "tipo_evento": "TROCA_ENVIADA",
+                "origem": "Troca",
+                "observacao": "Carta enviada em troca"
+            }
+        )
+
+        self.repository.adicionar_posse(
+            jogador_origem,
+            pokemon_recebido
+        )
+
+        self.notificar_observers(
+            {
+                "jogador_id": jogador_origem,
+                "pokemon_id": pokemon_recebido,
+                "tipo_evento": "TROCA_RECEBIDA",
+                "origem": "Troca",
+                "observacao": "Carta recebida em troca"
+            }
+        )
+
+        self.repository.remover_posse(
+            jogador_destino,
+            pokemon_recebido
+        )
+
+        self.notificar_observers(
+            {
+                "jogador_id": jogador_destino,
+                "pokemon_id": pokemon_recebido,
+                "tipo_evento": "TROCA_ENVIADA",
+                "origem": "Troca",
+                "observacao": "Carta enviada em troca"
+            }
+        )
+
+        self.repository.adicionar_posse(
+            jogador_destino,
+            pokemon_entregue
+        )
+
+        self.notificar_observers(
+            {
+                "jogador_id": jogador_destino,
+                "pokemon_id": pokemon_entregue,
+                "tipo_evento": "TROCA_RECEBIDA",
+                "origem": "Troca",
+                "observacao": "Carta recebida em troca"
+            }
+        )
+
+        self.pokedex_repository.atualizar_estatisticas(
+            jogador_origem
+        )
+
+        self.pokedex_repository.atualizar_estatisticas(
+            jogador_destino
         )
