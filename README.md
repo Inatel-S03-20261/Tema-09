@@ -207,3 +207,6 @@ pokedex/
     ├── casos_de_uso/
     └── arquitetura/
 ```
+## Video - Padrões Arquiteturais
+
+https://youtu.be/hIrigciv3_U
