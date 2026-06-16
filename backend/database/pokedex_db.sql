@@ -26,11 +26,11 @@ ENGINE = InnoDB;
 -- Table `pokedex_db`.`pokemon`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `pokedex_db`.`pokemon` (
-  `idpokemon` BIGINT NOT NULL,
+  `idpokemon` BIGINT NOT NULL ,
   `nome` VARCHAR(45) NOT NULL,
   `tipo_principal` VARCHAR(45) NULL,
   `tipo_secundario` VARCHAR(45) NULL,
-  `imagem_url` VARCHAR(45) NULL,
+  `imagem_url` VARCHAR(300) NULL,
   `descricao` TEXT NULL,
   PRIMARY KEY (`idpokemon`)
 )
@@ -41,7 +41,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `pokedex_db`.`pokedex` (
   `idpokedex` BIGINT NOT NULL,
-  `total_cartas_existentes` INT NULL,
+  `total_cartas_atualmente` INT NULL,
   `total_cartas_conhecidas` INT NULL,
   `jogador_idjogador` BIGINT NOT NULL,
   PRIMARY KEY (`idpokedex`),
@@ -58,7 +58,7 @@ ENGINE = InnoDB;
 -- Table `pokedex_db`.`cartaConhecida`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `pokedex_db`.`cartaConhecida` (
-  `idcartaConhecida` BIGINT NOT NULL,
+  `idcartaConhecida` BIGINT NOT NULL AUTO_INCREMENT,
   `data_primeiro_contato` DATE NULL,
   `origem` VARCHAR(45) NULL,
   `ja_possui` TINYINT NULL,
@@ -81,6 +81,34 @@ CREATE TABLE IF NOT EXISTS `pokedex_db`.`cartaConhecida` (
     ON UPDATE NO ACTION
 )
 ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `pokedex_db`.`historicoCarta` (
+
+    idhistorico BIGINT NOT NULL AUTO_INCREMENT,
+
+    data_evento DATETIME NOT NULL,
+
+    tipo_evento VARCHAR(50) NOT NULL,
+
+    origem VARCHAR(50),
+
+    observacao VARCHAR(255),
+
+    jogador_idjogador BIGINT NOT NULL,
+
+    pokemon_idpokemon BIGINT NOT NULL,
+
+    PRIMARY KEY (idhistorico),
+
+    CONSTRAINT fk_historico_jogador
+        FOREIGN KEY (jogador_idjogador)
+        REFERENCES jogador(idjogador),
+
+    CONSTRAINT fk_historico_pokemon
+        FOREIGN KEY (pokemon_idpokemon)
+        REFERENCES pokemon(idpokemon)
+
+) ENGINE = InnoDB;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
