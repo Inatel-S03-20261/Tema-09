@@ -2,11 +2,11 @@
 
 ## Descrição
 
-Microsserviço responsável pela autenticação, gerenciamento da Pokédex do jogador, cartas conhecidas, histórico de eventos e integração com a PokeAPI.
+O Tema-09 é um microsserviço desenvolvido em Python e Flask responsável pelo gerenciamento da Pokédex dos jogadores.
 
-Este serviço não executa trocas diretamente.
+O sistema realiza autenticação, sincronização de jogadores, gerenciamento de cartas conhecidas, histórico de eventos, integração com a PokeAPI e atualização das estatísticas da Pokédex.
 
-As trocas são realizadas por outro microsserviço e este backend apenas recebe as informações da troca, atualiza as cartas do jogador, registra o histórico e recalcula as estatísticas da Pokédex.
+Este microsserviço **não executa trocas diretamente**. As trocas são realizadas por outro microsserviço e este backend apenas recebe as informações das trocas, atualiza as cartas do jogador, registra o histórico e recalcula as estatísticas da Pokédex.
 
 ---
 
@@ -21,6 +21,31 @@ As trocas são realizadas por outro microsserviço e este backend apenas recebe 
 
 ---
 
+# Pré-requisitos
+
+Antes de executar o projeto, é necessário possuir instalado:
+
+* Python 3.11 ou superior
+* MySQL 8 ou superior
+* Git
+* Pip
+
+Verifique as versões instaladas:
+
+```bash
+python --version
+```
+
+```bash
+pip --version
+```
+
+```bash
+mysql --version
+```
+
+---
+
 # Padrões de Projeto
 
 ## Singleton
@@ -31,7 +56,13 @@ Classe:
 DatabaseConnection
 ```
 
-Responsável por manter uma única conexão com o banco de dados durante a execução da aplicação.
+Responsável por manter uma única conexão com o banco de dados durante toda a execução da aplicação.
+
+Benefícios:
+
+* Evita múltiplas conexões desnecessárias.
+* Centraliza o acesso ao banco.
+* Facilita o gerenciamento da conexão.
 
 ---
 
@@ -88,9 +119,9 @@ Controller
 PokedexService (Facade)
     ↓
 AutenticacaoService
-CartasService
+CartasService (Subject)
 PokemonService
-HistoricoService
+HistoricoService (Observer)
 TrocaService
     ↓
 Clients
@@ -107,17 +138,24 @@ MySQL
 # Estrutura do Projeto
 
 ```text
-src
-├── clients
-├── controllers
-├── factories
-├── mocks
-├── models
-├── patterns
-├── repositories
-├── services
-├── database.py
-└── app.py
+backend
+│
+├── database
+│   └── pokedex_db.sql
+│
+├── src
+│   ├── clients
+│   ├── controllers
+│   ├── factories
+│   ├── mocks
+│   ├── models
+│   ├── patterns
+│   ├── repositories
+│   ├── services
+│   ├── database.py
+│   └── app.py
+│
+└── requirements.txt
 ```
 
 ---
@@ -183,27 +221,27 @@ pokemon_idpokemon
 
 ## PokeAPI
 
-Utilizada para obtenção dos dados dos Pokémon.
+Utilizada para obtenção de informações dos Pokémon.
 
-Site:
+Site oficial:
 
 https://pokeapi.co
 
 ---
 
-# Mocks
+# Serviços Mockados
 
 ## MockAuth
 
-Simula autenticação.
+Simula o serviço de autenticação.
 
-Retorna token de acesso.
+Retorna um token válido para testes.
 
 ---
 
 ## MockDistribuicao
 
-Simula distribuição inicial de cartas.
+Simula a distribuição inicial de cartas.
 
 Exemplo:
 
@@ -224,7 +262,7 @@ Exemplo:
 
 ## MockTrocas
 
-Simula trocas realizadas em outro microsserviço.
+Simula trocas realizadas por outro microsserviço.
 
 Exemplo:
 
@@ -236,6 +274,157 @@ Exemplo:
     "pokemon_recebido": 7
   }
 ]
+```
+
+---
+
+# Configuração do Banco de Dados
+
+## 1. Instalar o MySQL
+
+Baixe e instale o MySQL Server:
+
+https://dev.mysql.com/downloads/mysql/
+
+Durante a instalação configure:
+
+```text
+Usuário: root
+Senha: root
+```
+
+Caso utilize credenciais diferentes, altere o arquivo:
+
+```text
+backend/src/database.py
+```
+
+---
+
+## 2. Criar o banco
+
+Acesse o MySQL:
+
+```bash
+mysql -u root -p
+```
+
+Crie o banco:
+
+```sql
+CREATE DATABASE pokedex_db;
+```
+
+Verifique:
+
+```sql
+SHOW DATABASES;
+```
+
+---
+
+## 3. Importar a estrutura do banco
+
+Na raiz do projeto execute:
+
+```bash
+mysql -u root -p pokedex_db < backend/database/pokedex_db.sql
+```
+
+Digite a senha quando solicitado.
+
+---
+
+## 4. Verificar as tabelas
+
+Acesse novamente o MySQL:
+
+```bash
+mysql -u root -p
+```
+
+Selecione o banco:
+
+```sql
+USE pokedex_db;
+```
+
+Liste as tabelas:
+
+```sql
+SHOW TABLES;
+```
+
+Resultado esperado:
+
+```text
+cartaconhecida
+historicocarta
+jogador
+pokedex
+pokemon
+```
+
+---
+
+# Instalação do Projeto
+
+## 1. Clonar o repositório
+
+```bash
+git clone <URL_DO_REPOSITORIO>
+```
+
+```bash
+cd Tema-09/backend
+```
+
+---
+
+## 2. Criar ambiente virtual
+
+```bash
+python -m venv venv
+```
+
+---
+
+## 3. Ativar ambiente virtual
+
+Windows:
+
+```bash
+venv\Scripts\activate
+```
+
+Linux/Mac:
+
+```bash
+source venv/bin/activate
+```
+
+---
+
+## 4. Instalar dependências
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+# Executando a Aplicação
+
+Execute:
+
+```bash
+python src/app.py
+```
+
+Resultado esperado:
+
+```text
+* Running on http://127.0.0.1:5000
 ```
 
 ---
@@ -281,6 +470,12 @@ Authorization: Bearer mock-token-1
 GET /auth/jogador
 ```
 
+Header:
+
+```http
+Authorization: Bearer mock-token-1
+```
+
 ---
 
 ## Pokémon
@@ -291,10 +486,18 @@ GET /auth/jogador
 GET /pokemon
 ```
 
-### Detalhes de Pokémon
+---
+
+### Detalhes de um Pokémon
 
 ```http
 GET /pokemon/{id}
+```
+
+Exemplo:
+
+```http
+GET /pokemon/25
 ```
 
 ---
@@ -307,6 +510,12 @@ GET /pokemon/{id}
 GET /pokedex
 ```
 
+Header:
+
+```http
+Authorization: Bearer mock-token-1
+```
+
 ---
 
 ### Listar Cartas
@@ -315,20 +524,34 @@ GET /pokedex
 GET /cartas
 ```
 
+Header:
+
+```http
+Authorization: Bearer mock-token-1
+```
+
 Primeira execução:
 
-* consulta banco
-* consulta distribuição
-* persiste cartas
-* registra histórico
-* atualiza Pokédex
+* Consulta o banco de dados.
+* Consulta o MockDistribuicao.
+* Busca os dados dos Pokémon na PokeAPI.
+* Persiste os Pokémon.
+* Persiste as cartas conhecidas.
+* Registra eventos de histórico.
+* Atualiza as estatísticas da Pokédex.
 
 ---
 
-### Histórico
+### Consultar Histórico
 
 ```http
 GET /historico
+```
+
+Header:
+
+```http
+Authorization: Bearer mock-token-1
 ```
 
 ---
@@ -339,6 +562,12 @@ GET /historico
 
 ```http
 POST /trocas/sincronizar
+```
+
+Header:
+
+```http
+Authorization: Bearer mock-token-1
 ```
 
 Fluxo:
@@ -359,61 +588,145 @@ Atualização da Pokédex
 
 ---
 
-# Como Executar
+# Fluxo Completo de Teste
 
-## Criar ambiente virtual
+## 1. Fazer Login
 
-```bash
-python -m venv venv
+```http
+POST /auth/login
 ```
 
-## Ativar ambiente
+Resposta esperada:
 
-Windows:
-
-```bash
-venv\Scripts\activate
-```
-
-Linux/Mac:
-
-```bash
-source venv/bin/activate
-```
-
-## Instalar dependências
-
-```bash
-pip install -r requirements.txt
-```
-
-## Configurar banco MySQL
-
-Criar banco:
-
-```sql
-CREATE DATABASE pokedex_db;
-```
-
-Ajustar credenciais em:
-
-```text
-src/database.py
+```json
+{
+  "token": "mock-token-1"
+}
 ```
 
 ---
 
-## Executar aplicação
+## 2. Buscar Cartas
 
-```bash
-python src/app.py
+```http
+GET /cartas
 ```
 
-Aplicação disponível em:
+Após essa chamada:
+
+```sql
+SELECT * FROM pokemon;
+SELECT * FROM cartaconhecida;
+SELECT * FROM historicocarta;
+```
+
+Os registros devem ter sido criados automaticamente.
+
+---
+
+## 3. Visualizar Pokédex
+
+```http
+GET /pokedex
+```
+
+---
+
+## 4. Consultar Histórico
+
+```http
+GET /historico
+```
+
+---
+
+## 5. Sincronizar Trocas
+
+```http
+POST /trocas/sincronizar
+```
+
+---
+
+## 6. Consultar Histórico Novamente
+
+```http
+GET /historico
+```
+
+Devem existir eventos:
 
 ```text
-http://localhost:5000
+DISTRIBUICAO
+TROCA_ENVIADA
+TROCA_RECEBIDA
 ```
+
+---
+
+# Consultando os Dados do Banco
+
+Acesse o MySQL:
+
+```bash
+mysql -u root -p
+```
+
+Selecione o banco:
+
+```sql
+USE pokedex_db;
+```
+
+Visualizar jogadores:
+
+```sql
+SELECT * FROM jogador;
+```
+
+Visualizar Pokédex:
+
+```sql
+SELECT * FROM pokedex;
+```
+
+Visualizar Pokémon:
+
+```sql
+SELECT * FROM pokemon;
+```
+
+Visualizar cartas:
+
+```sql
+SELECT * FROM cartaconhecida;
+```
+
+Visualizar histórico:
+
+```sql
+SELECT * FROM historicocarta;
+```
+
+---
+
+# Resetando o Banco
+
+Para repetir os testes:
+
+```sql
+SET FOREIGN_KEY_CHECKS = 0;
+
+TRUNCATE TABLE historicocarta;
+TRUNCATE TABLE cartaconhecida;
+TRUNCATE TABLE pokedex;
+TRUNCATE TABLE jogador;
+TRUNCATE TABLE pokemon;
+
+SET FOREIGN_KEY_CHECKS = 1;
+```
+
+Isso remove todos os dados e reinicia os identificadores das tabelas.
 
 ---
 
