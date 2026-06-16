@@ -2,14 +2,16 @@ from flask import Blueprint
 from flask import request
 from flask import jsonify
 
-from services.autenticacao_service import AutenticacaoService
+from services.pokedex_service import (
+    PokedexService
+)
 
 auth_bp = Blueprint(
     "auth",
     __name__
 )
 
-service = AutenticacaoService()
+service = PokedexService()
 
 
 @auth_bp.route(
@@ -23,7 +25,7 @@ def login():
     usuario = body.get("usuario")
     senha = body.get("senha")
 
-    resultado = service.login(
+    resultado = service.autenticar(
         usuario,
         senha
     )
@@ -40,12 +42,6 @@ def validar_token():
     token = request.headers.get(
         "Authorization"
     )
-
-    if token and token.startswith("Bearer "):
-        token = token.replace(
-            "Bearer ",
-            ""
-        )
 
     resultado = service.validar_token(
         token
@@ -64,13 +60,7 @@ def obter_jogador():
         "Authorization"
     )
 
-    if token and token.startswith("Bearer "):
-        token = token.replace(
-            "Bearer ",
-            ""
-        )
-
-    resultado = service.obter_jogador(
+    resultado = service.obter_jogador_por_token(
         token
     )
 

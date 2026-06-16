@@ -1,33 +1,93 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint
+from flask import jsonify
+from flask import request
 
-from services.pokemon_service import PokemonService
-from services.pokedex_service import PokedexService
-from services.cartas_service import CartasService
-from services.historico_service import HistoricoService
-
-pokedex_bp = Blueprint("pokedex", __name__)
-
-pokemon_service = PokemonService()
-pokedex_service = PokedexService()
-cartas_service = CartasService()
-historico_service = HistoricoService()
+from services.pokedex_service import (
+    PokedexService
+)
 
 
-@pokedex_bp.route("/pokemon", methods=["GET"])
+pokedex_bp = Blueprint(
+    "pokedex",
+    __name__
+)
+
+service = PokedexService()
+
+
+def responder(
+    resultado
+):
+
+    if isinstance(
+        resultado,
+        tuple
+    ):
+
+        corpo, status = resultado
+
+        return jsonify(corpo), status
+
+    return jsonify(resultado)
+
+
+@pokedex_bp.route(
+    "/pokemon",
+    methods=["GET"]
+)
 def listar_pokemon():
-    return jsonify(pokemon_service.listar_pokemon())
+
+    return responder(
+        service.listar_pokemon()
+    )
 
 
-@pokedex_bp.route("/pokedex", methods=["GET"])
+@pokedex_bp.route(
+    "/pokedex",
+    methods=["GET"]
+)
 def listar_pokedex():
-    return jsonify(pokedex_service.listar_pokedex())
+
+    token = request.headers.get(
+        "Authorization"
+    )
+
+    return responder(
+        service.visualizar_pokedex(
+            token
+        )
+    )
 
 
-@pokedex_bp.route("/cartas", methods=["GET"])
+@pokedex_bp.route(
+    "/cartas",
+    methods=["GET"]
+)
 def listar_cartas():
-    return jsonify(cartas_service.listar_cartas_conhecidas())
+
+    token = request.headers.get(
+        "Authorization"
+    )
+
+    return responder(
+        service.listar_cartas(
+            token
+        )
+    )
 
 
-@pokedex_bp.route("/historico", methods=["GET"])
+@pokedex_bp.route(
+    "/historico",
+    methods=["GET"]
+)
 def listar_historico():
-    return jsonify(historico_service.listar_historico())
+
+    token = request.headers.get(
+        "Authorization"
+    )
+
+    return responder(
+        service.listar_historico(
+            token
+        )
+    )
