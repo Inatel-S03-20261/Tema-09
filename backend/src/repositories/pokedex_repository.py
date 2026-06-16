@@ -73,7 +73,7 @@ class PokedexRepository:
 
         cursor.execute(
             """
-            SELECT COUNT(*)
+            SELECT COUNT(DISTINCT cc.pokemon_idpokemon)
             FROM cartaconhecida cc
 
             INNER JOIN pokedex pd
