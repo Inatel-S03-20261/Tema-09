@@ -106,6 +106,10 @@ O padrÃ£o Facade foi aplicado na classe PokedexService, que atua como uma fach
 
 O padrÃ£o Observer foi aplicado entre as classes CartasService e HistoricoService. Nesse contexto, CartasService atua como Subject, enquanto HistoricoService atua como Observer. Sempre que uma carta Ã© registrada como recebida ou trocada, o CartasService notifica seus observadores, permitindo que o histÃ³rico seja atualizado automaticamente. Dessa forma, a atualizaÃ§Ã£o do histÃ³rico ocorre de maneira desacoplada, sem que o serviÃ§o de cartas precise conhecer os detalhes da implementaÃ§Ã£o do histÃ³rico.
 
+#### Vídeo com a apresentação dos design patterns
+
+https://youtu.be/hIrigciv3_U
+
 ## Banco de Dados
 
 O banco de dados da aplicaÃ§Ã£o foi modelado utilizando MySQL Workbench e implementado em MySQL.

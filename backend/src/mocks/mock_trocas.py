@@ -6,14 +6,16 @@ class MockTrocas:
         return [
 
             {
-                "jogador_id": 1,
+                "jogador_origem": 1,
+                "jogador_destino": 4,
                 "pokemon_entregue": 25,
-                "pokemon_recebido": 7
+                "pokemon_recebido": 63
             },
 
             {
-                "jogador_id": 1,
-                "pokemon_entregue": 4,
+                "jogador_origem": 4,
+                "jogador_destino": 1,
+                "pokemon_entregue": 74,
                 "pokemon_recebido": 1
             }
 
