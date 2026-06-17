@@ -100,6 +100,10 @@ O padrão Facade foi aplicado na classe PokedexService, que atua como uma fachad
 
 O padrão Observer foi aplicado entre as classes CartasService e HistoricoService. Nesse contexto, CartasService atua como Subject, enquanto HistoricoService atua como Observer. Sempre que uma carta é registrada como recebida ou trocada, o CartasService notifica seus observadores, permitindo que o histórico seja atualizado automaticamente. Dessa forma, a atualização do histórico ocorre de maneira desacoplada, sem que o serviço de cartas precise conhecer os detalhes da implementação do histórico.
 
+#### Vídeo com a apresentação dos design patterns
+
+https://youtu.be/hIrigciv3_U
+
 ## Banco de Dados
 
 O banco de dados da aplicação foi modelado utilizando MySQL Workbench e implementado em MySQL.
@@ -207,6 +211,3 @@ pokedex/
     ├── casos_de_uso/
     └── arquitetura/
 ```
-## Video - Padrões Arquiteturais
-
-https://youtu.be/hIrigciv3_U
