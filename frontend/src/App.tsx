@@ -1,4 +1,3 @@
-import './App.css';
 import { useAuth } from './hooks/useAuth';
 import { LoginPage } from './pages/LoginPage';
 import { PokedexPage } from './pages/PokedexPage';

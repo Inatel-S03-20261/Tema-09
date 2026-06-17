@@ -4,10 +4,9 @@ import type { PokedexDTO } from '../dto/PokedexDTO';
 import type { TipoPokemon } from '../dto/PokemonDTO';
 import { PokedexService } from '../services/PokedexService';
 
-const LIMITE_POKEMONS = 100;
-
 export function usePokedex() {
   const service = useMemo(() => new PokedexService(), []);
+
   const [busca, setBusca] = useState('');
   const [status, setStatus] = useState<StatusCarta | 'todas'>('todas');
   const [tipo, setTipo] = useState<TipoPokemon | 'todos'>('todos');
@@ -19,7 +18,9 @@ export function usePokedex() {
     try {
       setCarregando(true);
       setErro('');
-      const dados = await service.consultarPokedex(1, LIMITE_POKEMONS);
+
+      const dados = await service.consultarPokedex();
+
       setPokedex(dados);
     } catch (error) {
       setErro(error instanceof Error ? error.message : 'Erro inesperado ao carregar a Pokédex.');
@@ -48,19 +49,18 @@ export function usePokedex() {
     return service.listarTipos(pokedex.cartas);
   }, [pokedex, service]);
 
-  async function atualizarCarta(pokemonId: number, novoStatus: StatusCarta) {
-    service.atualizarHistorico(pokemonId, novoStatus);
-    await carregarPokedex();
-  }
-
-  async function resetarDemo() {
-    service.resetarDemo();
-    await carregarPokedex();
-  }
-
   async function atualizarDadosDaApi() {
-    service.limparCacheApi();
-    await carregarPokedex();
+    try {
+      setCarregando(true);
+      setErro('');
+
+      await service.sincronizarPokedex();
+      await carregarPokedex();
+    } catch (error) {
+      setErro(error instanceof Error ? error.message : 'Erro inesperado ao sincronizar a Pokédex.');
+    } finally {
+      setCarregando(false);
+    }
   }
 
   return {
@@ -75,8 +75,6 @@ export function usePokedex() {
     cartasFiltradas,
     carregando,
     erro,
-    atualizarCarta,
-    resetarDemo,
     atualizarDadosDaApi,
   };
 }

@@ -1,0 +1,5 @@
+/* Ponto unico de entrada dos estilos do frontend. */
+@import './base.css';
+@import './layout.css';
+@import './pages/login.css';
+@import './pages/pokedex.css';

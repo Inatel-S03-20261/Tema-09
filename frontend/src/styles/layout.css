@@ -1,17 +1,4 @@
-#root {
-  min-height: 100vh;
-}
-
-button,
-input,
-select {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
+/* Layout compartilhado: classes reutilizadas por paginas, estados e paineis. */
 .login-page,
 .pokedex-page {
   min-height: 100vh;
@@ -39,13 +26,6 @@ button {
   background: #e8f1ff;
   font-size: 0.85rem;
   font-weight: 700;
-}
-
-h1,
-h2,
-h3,
-p {
-  margin-top: 0;
 }
 
 h1 {

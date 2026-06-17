@@ -1,12 +1,18 @@
-# Tema-09 – Backend Pokédex
+﻿## Execucao local com .env
 
-## Descrição
+Para rodar este backend junto com o frontend usando MySQL local, veja COMO_RODAR.md na raiz do projeto. As credenciais do banco ficam em backend/.env.
 
-O Tema-09 é um microsserviço desenvolvido em Python e Flask responsável pelo gerenciamento da Pokédex dos jogadores.
+---
 
-O sistema realiza autenticação, sincronização de jogadores, gerenciamento de cartas conhecidas, histórico de eventos, integração com a PokeAPI e atualização das estatísticas da Pokédex.
+# Tema-09 â€“ Backend PokÃ©dex
 
-Este microsserviço **não executa trocas diretamente**. As trocas são realizadas por outro microsserviço e este backend apenas recebe as informações das trocas, atualiza as cartas do jogador, registra o histórico e recalcula as estatísticas da Pokédex.
+## DescriÃ§Ã£o
+
+O Tema-09 Ã© um microsserviÃ§o desenvolvido em Python e Flask responsÃ¡vel pelo gerenciamento da PokÃ©dex dos jogadores.
+
+O sistema realiza autenticaÃ§Ã£o, sincronizaÃ§Ã£o de jogadores, gerenciamento de cartas conhecidas, histÃ³rico de eventos, integraÃ§Ã£o com a PokeAPI e atualizaÃ§Ã£o das estatÃ­sticas da PokÃ©dex.
+
+Este microsserviÃ§o **nÃ£o executa trocas diretamente**. As trocas sÃ£o realizadas por outro microsserviÃ§o e este backend apenas recebe as informaÃ§Ãµes das trocas, atualiza as cartas do jogador, registra o histÃ³rico e recalcula as estatÃ­sticas da PokÃ©dex.
 
 ---
 
@@ -21,16 +27,16 @@ Este microsserviço **não executa trocas diretamente**. As trocas são realizad
 
 ---
 
-# Pré-requisitos
+# PrÃ©-requisitos
 
-Antes de executar o projeto, é necessário possuir instalado:
+Antes de executar o projeto, Ã© necessÃ¡rio possuir instalado:
 
 * Python 3.11 ou superior
 * MySQL 8 ou superior
 * Git
 * Pip
 
-Verifique as versões instaladas:
+Verifique as versÃµes instaladas:
 
 ```bash
 python --version
@@ -46,7 +52,7 @@ mysql --version
 
 ---
 
-# Padrões de Projeto
+# PadrÃµes de Projeto
 
 ## Singleton
 
@@ -56,13 +62,13 @@ Classe:
 DatabaseConnection
 ```
 
-Responsável por manter uma única conexão com o banco de dados durante toda a execução da aplicação.
+ResponsÃ¡vel por manter uma Ãºnica conexÃ£o com o banco de dados durante toda a execuÃ§Ã£o da aplicaÃ§Ã£o.
 
-Benefícios:
+BenefÃ­cios:
 
-* Evita múltiplas conexões desnecessárias.
+* Evita mÃºltiplas conexÃµes desnecessÃ¡rias.
 * Centraliza o acesso ao banco.
-* Facilita o gerenciamento da conexão.
+* Facilita o gerenciamento da conexÃ£o.
 
 ---
 
@@ -74,13 +80,13 @@ Classe:
 PokedexService
 ```
 
-Centraliza o acesso às funcionalidades do sistema:
+Centraliza o acesso Ã s funcionalidades do sistema:
 
-* Autenticação
+* AutenticaÃ§Ã£o
 * Cartas
-* Pokédex
-* Histórico
-* Pokémon
+* PokÃ©dex
+* HistÃ³rico
+* PokÃ©mon
 * Trocas
 
 Os Controllers dependem apenas da Facade.
@@ -107,7 +113,7 @@ Eventos monitorados:
 * TROCA_ENVIADA
 * TROCA_RECEBIDA
 
-Sempre que uma carta é recebida ou trocada, o histórico é atualizado automaticamente.
+Sempre que uma carta Ã© recebida ou trocada, o histÃ³rico Ã© atualizado automaticamente.
 
 ---
 
@@ -115,21 +121,21 @@ Sempre que uma carta é recebida ou trocada, o histórico é atualizado automati
 
 ```text
 Controller
-    ↓
+    â†“
 PokedexService (Facade)
-    ↓
+    â†“
 AutenticacaoService
 CartasService (Subject)
 PokemonService
 HistoricoService (Observer)
 TrocaService
-    ↓
+    â†“
 Clients
-    ↓
+    â†“
 Repositories
-    ↓
+    â†“
 DatabaseConnection (Singleton)
-    ↓
+    â†“
 MySQL
 ```
 
@@ -139,23 +145,23 @@ MySQL
 
 ```text
 backend
-│
-├── database
-│   └── pokedex_db.sql
-│
-├── src
-│   ├── clients
-│   ├── controllers
-│   ├── factories
-│   ├── mocks
-│   ├── models
-│   ├── patterns
-│   ├── repositories
-│   ├── services
-│   ├── database.py
-│   └── app.py
-│
-└── requirements.txt
+â”‚
+â”œâ”€â”€ database
+â”‚   â””â”€â”€ pokedex_db.sql
+â”‚
+â”œâ”€â”€ src
+â”‚   â”œâ”€â”€ clients
+â”‚   â”œâ”€â”€ controllers
+â”‚   â”œâ”€â”€ factories
+â”‚   â”œâ”€â”€ mocks
+â”‚   â”œâ”€â”€ models
+â”‚   â”œâ”€â”€ patterns
+â”‚   â”œâ”€â”€ repositories
+â”‚   â”œâ”€â”€ services
+â”‚   â”œâ”€â”€ database.py
+â”‚   â””â”€â”€ app.py
+â”‚
+â””â”€â”€ requirements.txt
 ```
 
 ---
@@ -221,7 +227,7 @@ pokemon_idpokemon
 
 ## PokeAPI
 
-Utilizada para obtenção de informações dos Pokémon.
+Utilizada para obtenÃ§Ã£o de informaÃ§Ãµes dos PokÃ©mon.
 
 Site oficial:
 
@@ -229,19 +235,19 @@ https://pokeapi.co
 
 ---
 
-# Serviços Mockados
+# ServiÃ§os Mockados
 
 ## MockAuth
 
-Simula o serviço de autenticação.
+Simula o serviÃ§o de autenticaÃ§Ã£o.
 
-Retorna um token válido para testes.
+Retorna um token vÃ¡lido para testes.
 
 ---
 
 ## MockDistribuicao
 
-Simula a distribuição inicial de cartas.
+Simula a distribuiÃ§Ã£o inicial de cartas.
 
 Exemplo:
 
@@ -262,7 +268,7 @@ Exemplo:
 
 ## MockTrocas
 
-Simula trocas realizadas por outro microsserviço.
+Simula trocas realizadas por outro microsserviÃ§o.
 
 Exemplo:
 
@@ -278,7 +284,7 @@ Exemplo:
 
 ---
 
-# Configuração do Banco de Dados
+# ConfiguraÃ§Ã£o do Banco de Dados
 
 ## 1. Instalar o MySQL
 
@@ -286,10 +292,10 @@ Baixe e instale o MySQL Server:
 
 https://dev.mysql.com/downloads/mysql/
 
-Durante a instalação configure:
+Durante a instalaÃ§Ã£o configure:
 
 ```text
-Usuário: root
+UsuÃ¡rio: root
 Senha: root
 ```
 
@@ -367,9 +373,9 @@ pokemon
 
 ---
 
-# Instalação do Projeto
+# InstalaÃ§Ã£o do Projeto
 
-## 1. Clonar o repositório
+## 1. Clonar o repositÃ³rio
 
 ```bash
 git clone <URL_DO_REPOSITORIO>
@@ -405,7 +411,7 @@ source venv/bin/activate
 
 ---
 
-## 4. Instalar dependências
+## 4. Instalar dependÃªncias
 
 ```bash
 pip install -r requirements.txt
@@ -413,7 +419,7 @@ pip install -r requirements.txt
 
 ---
 
-# Executando a Aplicação
+# Executando a AplicaÃ§Ã£o
 
 Execute:
 
@@ -431,7 +437,7 @@ Resultado esperado:
 
 # Endpoints
 
-## Autenticação
+## AutenticaÃ§Ã£o
 
 ### Login
 
@@ -478,9 +484,9 @@ Authorization: Bearer mock-token-1
 
 ---
 
-## Pokémon
+## PokÃ©mon
 
-### Listar Pokémon
+### Listar PokÃ©mon
 
 ```http
 GET /pokemon
@@ -488,7 +494,7 @@ GET /pokemon
 
 ---
 
-### Detalhes de um Pokémon
+### Detalhes de um PokÃ©mon
 
 ```http
 GET /pokemon/{id}
@@ -502,9 +508,9 @@ GET /pokemon/25
 
 ---
 
-## Pokédex
+## PokÃ©dex
 
-### Visualizar Pokédex
+### Visualizar PokÃ©dex
 
 ```http
 GET /pokedex
@@ -530,19 +536,19 @@ Header:
 Authorization: Bearer mock-token-1
 ```
 
-Primeira execução:
+Primeira execuÃ§Ã£o:
 
 * Consulta o banco de dados.
 * Consulta o MockDistribuicao.
-* Busca os dados dos Pokémon na PokeAPI.
-* Persiste os Pokémon.
+* Busca os dados dos PokÃ©mon na PokeAPI.
+* Persiste os PokÃ©mon.
 * Persiste as cartas conhecidas.
-* Registra eventos de histórico.
-* Atualiza as estatísticas da Pokédex.
+* Registra eventos de histÃ³rico.
+* Atualiza as estatÃ­sticas da PokÃ©dex.
 
 ---
 
-### Consultar Histórico
+### Consultar HistÃ³rico
 
 ```http
 GET /historico
@@ -574,16 +580,16 @@ Fluxo:
 
 ```text
 MockTrocas
-↓
+â†“
 TrocaService
-↓
+â†“
 CartasService
-↓
+â†“
 Observer
-↓
+â†“
 HistoricoService
-↓
-Atualização da Pokédex
+â†“
+AtualizaÃ§Ã£o da PokÃ©dex
 ```
 
 ---
@@ -612,7 +618,7 @@ Resposta esperada:
 GET /cartas
 ```
 
-Após essa chamada:
+ApÃ³s essa chamada:
 
 ```sql
 SELECT * FROM pokemon;
@@ -624,7 +630,7 @@ Os registros devem ter sido criados automaticamente.
 
 ---
 
-## 3. Visualizar Pokédex
+## 3. Visualizar PokÃ©dex
 
 ```http
 GET /pokedex
@@ -632,7 +638,7 @@ GET /pokedex
 
 ---
 
-## 4. Consultar Histórico
+## 4. Consultar HistÃ³rico
 
 ```http
 GET /historico
@@ -648,7 +654,7 @@ POST /trocas/sincronizar
 
 ---
 
-## 6. Consultar Histórico Novamente
+## 6. Consultar HistÃ³rico Novamente
 
 ```http
 GET /historico
@@ -684,13 +690,13 @@ Visualizar jogadores:
 SELECT * FROM jogador;
 ```
 
-Visualizar Pokédex:
+Visualizar PokÃ©dex:
 
 ```sql
 SELECT * FROM pokedex;
 ```
 
-Visualizar Pokémon:
+Visualizar PokÃ©mon:
 
 ```sql
 SELECT * FROM pokemon;
@@ -702,7 +708,7 @@ Visualizar cartas:
 SELECT * FROM cartaconhecida;
 ```
 
-Visualizar histórico:
+Visualizar histÃ³rico:
 
 ```sql
 SELECT * FROM historicocarta;
@@ -730,11 +736,11 @@ Isso remove todos os dados e reinicia os identificadores das tabelas.
 
 ---
 
-# Regras de Negócio
+# Regras de NegÃ³cio
 
 ## total_cartas_conhecidas
 
-Conta todas as cartas que o jogador já conheceu.
+Conta todas as cartas que o jogador jÃ¡ conheceu.
 
 ---
 
@@ -748,7 +754,7 @@ possui_atualmente = TRUE
 
 ---
 
-## Histórico
+## HistÃ³rico
 
 Eventos registrados:
 
@@ -762,4 +768,5 @@ TROCA_RECEBIDA
 
 # Autores
 
-Projeto acadêmico desenvolvido para a disciplina de Arquitetura de Software e Microsserviços – INATEL.
+Projeto acadÃªmico desenvolvido para a disciplina de Arquitetura de Software e MicrosserviÃ§os â€“ INATEL.
+
